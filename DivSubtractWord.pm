@@ -36,11 +36,7 @@ has divisors => (
                   default => sub { [ 2, 3, 4, 5, 6, 7, 8, 9, 10 ] }
                 );
 
-has problem_text_templates => (
-                                isa     => 'ArrayRef[Str]',
-                                is      => 'rw',
-                                default => sub { [] }
-                              );
+
 
 has types_of_things => (
     isa     => 'ArrayRef',
@@ -71,7 +67,7 @@ sub BUILD {
           . 'and now I have N_THINGS THING_TYPE. \newline How many friends do I have?',
 
         'My grandmother gave me N_THINGS THING_TYPE. I kept N_KEEP of them, '
-          . ' and got rid of them rest '
+          . ' and got rid of the rest '
           . 'by giving N_FRIENDS THING_TYPE to each of my friends. \newline '
           . 'How many friends do I have? '
     ];
@@ -149,7 +145,7 @@ sub page_o_problems {
         $problems_string .= '\item ' . $problem . answer_box('1.5in') . ' \vspace{0.5mm}' . "\n";
     }
     my $page_string = $self->page_tex_template();
-    $page_string =~ s{PAGE_TITLE}{Division and Subtraction};
+    $page_string =~ s{PAGE_TITLE}{Division, Subtraction, Addition};
     $page_string =~ s{THE_PROBLEMS}{$problems_string};
     return $page_string;
 }

@@ -137,7 +137,7 @@ sub random_problem {
 
 sub page_o_problems {
     my $self               = shift;
-    my $n_problems_on_page = shift || 5;    # number of problems on the page.
+    my $n_problems_on_page = shift || 6;    # number of problems on the page.
     my $problems_string    = '';
     $self->shuffle_arrays( [ 'n_to_keep', 'divisors', 'types_of_things', 'problem_text_templates' ] );
 
@@ -153,7 +153,7 @@ sub page_o_problems {
         $problems_string .= '\item ' . $problem . answer_box('1.5in') . ' \vspace{0.5mm}' . "\n";
     }
     my $page_string = $self->page_tex_template();
-    $page_string =~ s{PAGE_TITLE}{Division and Subtraction};
+    $page_string =~ s{PAGE_TITLE}{Multiplication and Subtraction};
     $page_string =~ s{THE_PROBLEMS}{$problems_string};
     return $page_string;
 }

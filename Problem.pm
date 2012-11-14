@@ -14,7 +14,7 @@ my $page_tex_template =
   "\n BSES Math Team  \\hspace{1in}    PAGE_TITLE  \n" . 
   ' \vspace {4 mm} ' . "\n" .
   '\begin{enumerate}   [itemsep=2em, topsep=0.3em]  ' . "\n" .
-  '\item What is your name? ' . answer_box('3.5in') . "\n" .
+  '\item What is your name? ' . answer_box('3.5in') . ' \vspace{0.5mm}' . "\n" .
   ' THE_PROBLEMS ' . ' \end{enumerate}  \pagebreak ' . "\n";
 
 has problem_text_template => (
@@ -22,6 +22,12 @@ has problem_text_template => (
 	is => 'rw',
 	default => ''
 );
+
+has problem_text_templates => (
+                                isa     => 'ArrayRef',
+                                is      => 'rw',
+                                default => sub { [] }
+                              );
 
 has answer_text_template => (
         isa => 'Str',
@@ -47,6 +53,37 @@ sub shuffle_arrays {
   }
 }
 
+# shift, push, and return the shifted value
+sub cycle_array {
+  my $self = shift;
+  my $array_to_cycle = shift;
+  my $value = shift @{$self->{$array_to_cycle}};
+  push @{$self->{$array_to_cycle}}, $value;
+return $value;
+}
+
+# given array ref return random element (equal weights)
+sub choose_random{
+my $self = shift;
+my $choices_aref = shift;
+my @choices = @$choices_aref;
+my $n = scalar @choices;
+return $choices[ int(rand()*$n) ];
+}
+# given hash ref with values representing weights (i.e. rel probabilities) return random key
+sub weighted_choose_random{
+my $self = shift;
+my $choice_weight = shift; #$self->unit_weights();
+my $sum_weights = sum(values %$choice_weight);
+my $n_weights = scalar keys %$choice_weight;
+my $cume_weight = 0;
+my $rndm = rand()* $sum_weights;
+foreach my $choice (keys %$choice_weight){
+$cume_weight += $choice_weight->{$choice};
+return $choice if($rndm <= $cume_weight);
+}
+warn "in Problem::weighted_choose_random. $rndm, $cume_weight, $sum_weights.\n";
+}
 
 __PACKAGE__->meta->make_immutable;
 

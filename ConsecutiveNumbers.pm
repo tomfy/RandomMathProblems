@@ -26,6 +26,12 @@ has max_multiplier => (
                         default => 12
                       );
 
+has intro_text => (
+		   isa => 'Str',
+		   is => 'rw',
+		   default => ''
+		  );
+
 has divisors => (
     isa     => 'Maybe[ArrayRef]',
     is      => 'rw',
@@ -93,20 +99,21 @@ has types_of_things => (
 
 sub BUILD {
     my $self = shift;
-
-    my $problem_text_templates = [
+my $intro_text = 'Numbers are consecutive if each number is one greater than the preceding one, like ' .
+  ' \'58, 59, 60\' for example.';
+$self->intro_text($intro_text);
+  my $problem_text_templates = [
             'I am thinking of three 2-digit numbers which are consecutive (like 23,24,25). '
-          . ' The first (smallest) number is divisible by DIVISOR1, '
+          . ' The smallest number is divisible by DIVISOR1, '
           . 'the middle number is divisible by DIVISOR2, '
           . 'and the largest number is divisible by DIVISOR3. \newline '
-          . ' What are the three numbers? ',
+          . 'What three numbers could they be? ',
 
-        'Numbers are consecutive if each number is one greater than the preceding one, '
-          . 'like \'58,59,60\' for example. A set of three consecutive 2-digit numbers has '
+        'A set of three consecutive 2-digit numbers has '
           . 'a smallest number which is a multiple of DIVISOR1, '
           . 'a middle number which is a multiple of DIVISOR2, '
-          . ' and a largest number which is a multiple of DIVISOR3. '
-          . ' What are the three numbers? '
+          . ' and a largest number which is a multiple of DIVISOR3. \newline '
+          . ' What three numbers could they be? '
     ];
     $self->problem_text_templates($problem_text_templates);
 
@@ -156,12 +163,16 @@ sub random_problem {
 
 sub page_o_problems {
     my $self               = shift;
-    my $n_problems_on_page = shift || 5;    # number of problems on the page.
-    my $problems_string    = '';
+    my $n_problems_on_page = shift || 4;    # number of problems on the page.
+    my $problems_string    = ''; #$self->intro_text() . ' \newline ';
+    my @divisor_phrases = (' divisible by DIVISOR', ' a multiple of DIVISOR', ' has DIVISOR as a factor ');
     $self->shuffle_arrays( [ 'divisors', 'problem_text_templates' ] );
     for ( 1 .. $n_problems_on_page ) {
         my ( $problem, $answer ) = $self->random_problem();
-        $problems_string .= '\item ' . $problem . answer_box('1.5in') . ' \vspace{0.5mm}' . "\n";
+	if($_ == 1){
+	  $problem = $self->intro_text() . " " . $problem;
+	}
+        $problems_string .= '\item ' . $problem . answer_box('1.5in') . ' \newline \vspace{0.5mm}' . "\n";
     }
     my $page_string = $self->page_tex_template();
     $page_string =~ s{PAGE_TITLE}{Consecutive Numbers and Divisibility};

@@ -34,8 +34,11 @@ sub answer_box{
   my $size = shift || '1in';
   my $text = ' \begin{tabular}{|>{\centering}p{' . $size . '}|}';
   $text .= ' \hline \tabularnewline \hline \end{tabular} ';
+
+
+# $text = ' \framebox[' . $size . '][c]{xxx} ';
   return $text;
-} 
+}
 
 
 
