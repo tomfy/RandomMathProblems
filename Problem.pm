@@ -54,6 +54,7 @@ sub shuffle_arrays {
 }
 
 # shift, push, and return the shifted value
+# argument is string, the name of array to cycle 
 sub cycle_array {
   my $self = shift;
   my $array_to_cycle = shift;
