@@ -1,7 +1,9 @@
 #!/usr/bin/perl -w
 use strict;
 use TomfyTex qw( answer_box box_chain );
-use SockDrawer;
+use SocksAndGumballs;
+
+my $n_pages = shift || 2;
 
 # the idea here is to produce random problems of the type:
 # I have 8 red socks, 13 blue socks and 10 green socks. 
@@ -40,11 +42,15 @@ $tex_string .= ' \pagestyle {empty} ';
 my $N = shift || 2;
 my $n_digits = shift || 2;
 
-############# begin Mystery Number problems ###############
-my $problem_obj = SockDrawer->new( );
+############# begin problems ###############
+my $problem_obj = SocksAndGumballs->new( );
 my $n_probs_on_page = 4;
-$tex_string .= $problem_obj->page_o_problems($n_probs_on_page);
-############# end Mystery Number problems ###############
+my $n_easy = $n_probs_on_page; # -1;
+my $n_medium = $n_probs_on_page - $n_easy;
+for (1..$n_pages){
+$tex_string .= $problem_obj->page_o_problems($n_probs_on_page, "$n_easy,$n_medium,0");
+}
+############# end problems ###############
 
 $tex_string .= '\end{document}' . "\n";
 print $tex_string;
