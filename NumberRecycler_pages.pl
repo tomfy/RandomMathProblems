@@ -44,7 +44,7 @@ my $n_digits = shift || 2;
 ############# begin Mystery Number problems ###############
 my $Mystery_obj = NumberRecycler->new();
 for (1..$N){
-my $n_probs_on_page = 4;
+my $n_probs_on_page = 2;
 
 $tex_string .= $Mystery_obj->page_o_problems($n_probs_on_page, ($_ - 1) % 2);
 }

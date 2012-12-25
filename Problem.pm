@@ -11,10 +11,11 @@ use List::Util qw ( min max sum shuffle );
 use TomfyTex qw ( box_chain answer_box );
 
 my $page_tex_template = 
-  "\n BSES Math Team  \\hspace{1in}    PAGE_TITLE  \n" . 
-  ' \vspace {4 mm} ' . "\n" .
+  'BSES Math Team  \\hspace{1in}   PAGE_TITLE  \newline \vspace{4 mm} \newline ' . "\n" .
+ ' What is your name? ' . answer_box('3.5in') . ' \newline \vspace{0.5mm} \newline' . "\n" .
+' EXAMPLE \newline ' . # \vspace{4mm} ' .
   '\begin{enumerate}   [itemsep=2em, topsep=0.3em]  ' . "\n" .
-  '\item What is your name? ' . answer_box('3.5in') . ' \vspace{0.5mm}' . "\n" .
+ # '\item What is your name? ' . answer_box('3.5in') . ' \vspace{0.5mm}' . "\n" .
   ' THE_PROBLEMS ' . ' \end{enumerate}  \pagebreak ' . "\n";
 
 has problem_text_template => (
