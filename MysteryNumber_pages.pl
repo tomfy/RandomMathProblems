@@ -41,17 +41,17 @@ $tex_string .= ' \documentclass[14pt,english]{extarticle}
 ';
 $tex_string .= ' \pagestyle {empty} ';
 # $tex_string .= '\begin{enumerate}' . "\n"; 
-my $N = shift || 2;
+my $N_pages = shift || 2;
 my $n_digits = shift || 2;
 
 ############# begin Mystery Number problems ###############
 my $Mystery_obj = MysteryNumber->new( {n_digits => $n_digits} );
-for (1..$N){
-my $n_probs_on_page = 1;
-if($n_digits == 2) {
-$n_probs_on_page = 4;
-}
-$tex_string .= $Mystery_obj->page_o_problems($n_probs_on_page, ($_ - 1) % 2);
+for (1..$N_pages) {
+  my $n_probs_on_page = 3;
+  if ($n_digits == 2) {
+    $n_probs_on_page = 4;
+  }
+  $tex_string .= $Mystery_obj->page_o_problems($n_probs_on_page, 1); # ($_ - 1) % 2);
 }
 ############# end Mystery Number problems ###############
 
