@@ -1,0 +1,13 @@
+These are perl modules and scripts to generate latex output for various kinds of math problems.
+The idea is that you can generate many random similar problems, i.e. problems which are essentially the same in terms of the math ideas and techniques they use, but with specifics changed. This is useful if you are having a problem with students copying from each other. Give them each a different version of a problem.
+
+How to:
+Run a script, redirecting standard output to a file with a .tex ending, e.g.:
+
+perl SocksAndGumballs_pages.pl > SaG.tex
+
+then
+
+latex2pdf < SaG.tex > SaG.pdf
+
+
