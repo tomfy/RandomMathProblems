@@ -136,8 +136,10 @@ sub BUILD {
           . ' (Example: If the input is NSMALL the output is FNSMALL; if the input is NLARGE the output is FNLARGE.) '
    . ' I start by putting NSTART into my machine, and each time I get an output number I '
       . ' put it back into the machine. \newline '
-. ' * What will the first NITERATIONS1 output numbers? ' . answer_box('2.5in') . ' \newline '
-. ' * What will be the NITERATIONS2 output number? ' . answer_box('2.5in') . ' \newline '
+. ' a) What will be the first NITERATIONS1 output numbers? ' 
+. (($self->show_answer_box())? answer_box('2.5in') : '') . ' \newline '
+. ' b) What will be the NITERATIONS2 output number? '
+. (($self->show_answer_box())? answer_box('2.5in') : '') . ' \newline '
     ];
 
     $self->problem_text_templates($problem_text_templates);
