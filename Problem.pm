@@ -11,7 +11,8 @@ use List::Util qw ( min max sum shuffle );
 use TomfyTex qw ( box_chain answer_box );
 
 my $page_tex_template = 
-  'BSES Math Team  \\hspace{1in}   PAGE_TITLE  \newline \vspace{4 mm} \newline ' . "\n" .
+#  'BSES Math Team  \\hspace{1in}   
+'PAGE_TITLE  \newline \vspace{4 mm} \newline ' . "\n" .
  ' What is your name? ' . answer_box('3.5in') . ' \newline \vspace{0.5mm} \newline' . "\n" .
 ' EXAMPLE \newline ' . # \vspace{4mm} ' .
   '\begin{enumerate}   [itemsep=2em, topsep=0.3em]  ' . "\n" .
@@ -42,6 +43,22 @@ has page_tex_template => (
 		 default => "$page_tex_template"
 );
 
+has show_answer_box => (
+			isa => 'Bool',
+			is => 'ro',
+			default => 0,
+);
+
+
+sub random_problem_tex{
+  my $self = shift;
+  my ($problem, $answer) = $self->random_problem();
+  my $answer_box_width = '4.5in';
+  my $problem_string = '\item ' . $problem;
+  $problem_string .= answer_box($answer_box_width) if($self->show_answer_box());
+  $problem_string .= ' \vspace{0.5mm}' . "\n";
+  return $problem_string;
+}
 
 sub shuffle_arrays {
   my $self = shift;
