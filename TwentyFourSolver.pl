@@ -8,7 +8,8 @@ use strict;
 #die "Must input four 1-digit numbers (space separated) e.g. '1 2 3 4' \n" if(scalar @four_numbers != 4);
 
 
-my $arg = shift || 0;
+my $arg = shift // 0; # e.g. '1,3,5,6', or 0 to do all.
+my $target_number = shift // 24;
 my $verbose = 0;
 
 my @cl_four_numbers = split(/[\s,;]*/, $arg);
@@ -55,21 +56,23 @@ if (scalar @cl_four_numbers == 4) {
     }
   }
 
-  my $outstring = '{';
+  my $outstring = '';
 
   #print scalar keys %canfour_count, "\n\n";
   my $counter = 0;
-  for my $frnmbrs (keys %canfour_count) {
-    my @fournmbrs = split(",", $frnmbrs);
+  my @sorted_4nmbrs = sort keys %canfour_count;
+  #for my $frnmbrs (keys %canfour_count) {
+  for my $frnmbrs (@sorted_4nmbrs){
+  my @fournmbrs = split(",", $frnmbrs);
     my $n_solns = one_problem_solutions(\@fournmbrs, \@permutations, $verbose);
     if ($n_solns > 0) {
-      $outstring .= "'$frnmbrs' => 1, ";
-      $counter++;
-      $outstring .= "\n" if(($counter % 8) == 0);
+      $outstring .= "$frnmbrs => $n_solns\n";
+      #$counter++;
+      #$outstring .= "\n" if(($counter % 8) == 0);
     }
   }
 
-  $outstring .= '}';
+  #$outstring .= '}';
   print "$outstring \n";
 }
 
@@ -117,29 +120,29 @@ sub eval_under_5_paren_patterns{
 #  print "XXXXXXXXXXX\n";
   # print STDERR "$a $op1 $b $op2 $c $op3 $d \n";
   my $result1 = f1($numbers, $ops); # bop( bop( bop( $a, $op1, $b), $op2, $c), $op3, $d);
-  if (defined $result1  and  (abs($result1 - 24) <= $epsilon)) { # $result1 == 24) {
+  if (defined $result1  and  (abs($result1 - $target_number) <= $epsilon)) { # $result1 == 24) {
     print STDERR "( ($a $op1 $b) $op2 $c) $op3 $d \n" if($verbose);
     $solution_count++;
   }
   my $result2 = f2($numbers, $ops); # bop( bop( $a, $op1, bop( $b, $op2, $c) ), $op3, $d);
-  if (defined $result2  and  (abs($result2 - 24) <= $epsilon)) { # $result2 == 24) {
+  if (defined $result2  and  (abs($result2 - $target_number) <= $epsilon)) { # $result2 == 24) {
     print STDERR "($a $op1 ($b $op2 $c) ) $op3 $d \n" if($verbose);
     $solution_count++;
   }
 
   my $result3 = f3($numbers, $ops); # bop( $a, $op1, bop( bop( $b, $op2, $c), $op3, $d));
-  if (defined $result3  and  (abs($result3 - 24) <= $epsilon)) { # $result3 == 24) {
+  if (defined $result3  and  (abs($result3 - $target_number) <= $epsilon)) { # $result3 == 24) {
     print  STDERR "$a $op1 ( ($b $op2 $c) $op3 $d )\n" if($verbose);
     $solution_count++;
   }
   my $result4 = f4($numbers, $ops); # bop( $a, $op1, bop( $b, $op2, bop($c, $op3, $d)));
-  if (defined $result4  and  (abs($result4 - 24) <= $epsilon)) { # $result4 == 24) {
+  if (defined $result4  and  (abs($result4 - $target_number) <= $epsilon)) { # $result4 == 24) {
     print  STDERR "$a $op1 ($b $op2 ($c $op3 $d)) \n" if($verbose);
     $solution_count++;
   }
 
   my $result5 = f5($numbers, $ops); # bop( bop( $a, $op1, $b), $op2, bop($c, $op3, $d));
-  if (defined $result5  and  (abs($result5 - 24) <= $epsilon)) { # $result5 == 24) {
+  if (defined $result5  and  (abs($result5 - $target_number) <= $epsilon)) { # $result5 == 24) {
     print  STDERR "($a $op1 $b) $op2 ($c $op3 $d) \n" if($verbose);
     $solution_count++;
   }
