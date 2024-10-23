@@ -13,7 +13,7 @@ use TomfyTex qw ( box_chain answer_box );
 my $page_tex_template = 
 #  'BSES Math Team  \\hspace{1in}   
 'PAGE_TITLE  \newline \vspace{4 mm} \newline ' . "\n" .
- ' What is your name? ' . answer_box('3.5in') . ' \newline \vspace{0.5mm} \newline' . "\n" .
+# ' What is your name? ' . answer_box('3.5in') . ' \newline \vspace{0.5mm} \newline' . "\n" .
 # ' EXAMPLE \newline ' . # \vspace{4mm} ' .
   '\begin{enumerate}   [itemsep=2em, topsep=0.3em]  ' . "\n" .
  # '\item What is your name? ' . answer_box('3.5in') . ' \vspace{0.5mm}' . "\n" .
