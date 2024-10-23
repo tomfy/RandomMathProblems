@@ -1,5 +1,17 @@
 #!/usr/bin/perl -w
 use strict;
+
+use File::Basename 'dirname';
+use Cwd 'abs_path';
+my ( $bindir, $libdir );
+BEGIN {     # this has to go in Begin block so happens at compile time
+  $bindir =
+    dirname( abs_path(__FILE__) ) ; # the directory containing this script
+  $libdir = $bindir; #  . './'; # '/../lib';
+  $libdir = abs_path($libdir);	# collapses the bin/../lib to just lib
+}
+use lib $libdir;
+
 use TomfyTex qw( answer_box box_chain );
 use WorkBackwards;
 use Factors;
@@ -42,8 +54,8 @@ $tex_string .= ' \documentclass[14pt,english]{extarticle}
 ';
 $tex_string .= ' \pagestyle {empty} ';
 
-my $N = shift || 2;
-my $max_intermediate = shift || 50;
+my $N = shift // 2;
+my $max_intermediate = shift // 50;
 my $WB_problem_object = WorkBackwards->new({'max_answer' => 25, 'max_intermediate_number' => $max_intermediate});
 
 
