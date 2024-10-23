@@ -104,7 +104,8 @@ sub random_problem {
         $other_clues =
           ( $divisor eq 'odd' )
           ? ' \item is an odd number, and '
-          : ' \item is a multiple of ' . $divisor . ' and ';
+         # : ' \item is a multiple of ' . $divisor . ' and ';
+	  : ' \item is divisible by ' . $divisor . ' and ';
         for ( @required_digits ) {
             $other_clues .= ' \item has at least one digit which is a ' . $_ . ', and ';
         }
